@@ -18,6 +18,10 @@ class MoviesController < ApplicationController
     # default: render 'new' template
   end
 
+  def sort descr
+    @movies = Movie.descr.sort!
+  end
+
   def create
     @movie = Movie.create!(movie_params)
     flash[:notice] = "#{@movie.title} was successfully created."
