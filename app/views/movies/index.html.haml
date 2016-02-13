@@ -4,9 +4,9 @@
 %table#movies
   %thead
     %tr
-      %th= link_to "Movie Title", controller: "sort"
+      %th= link_to "Movie Title", id: th.hilite, controller: sort(:title)
       %th Rating
-      %th link_to "Release Date", controller: "sort"
+      %th link_to "Release Date", controller: sort
       %th More Info
   %tbody
     - @movies.each do |movie|
