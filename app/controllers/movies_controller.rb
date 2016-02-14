@@ -11,32 +11,24 @@ class MoviesController < ApplicationController
   end
 
   def index
-    # @movies = Movie.all
+    @movies = Movie.all
     
-    # #Ratings Section
-    # @all_ratings = Movie.get_ratings
-    # ratings = params[:ratings]
-    # @ratings = ratings.nil? ? Movie.get_ratings : ratings.keys
-    
-    # #Sorting by Title/Release
-    # if(params[:sort].to_s == 'title')
-    #   session[:sort] = params[:sort]
-    #   @movies = @movies.sort_by{|m| m.title }
-    # elsif(params[:sort].to_s == 'release')
-    #   session[:sort] = params[:sort]
-    #   @movies = @movies.sort_by{|m| m.release_date.to_s }
-    # else
-    #   params[:sort] = ''
-    #   session[:sort] = params[:sort]
-    # end
-    sort = params[:sort]
-    order = params[:order]
-    @order = (order.nil? || order == 'desc') ? 'asc' : 'desc'
-
+    #Ratings Section
     @all_ratings = Movie.get_ratings
     ratings = params[:ratings]
     @ratings = ratings.nil? ? Movie.get_ratings : ratings.keys
-    @movies = Movie.order("#{sort} #{order}").where('rating IN (?)', @ratings).all
+    
+    #Sorting by Title/Release
+    if(params[:sort].to_s == 'title')
+      session[:sort] = params[:sort]
+      @movies = @movies.sort_by{|m| m.title }
+    elsif(params[:sort].to_s == 'release')
+      session[:sort] = params[:sort]
+      @movies = @movies.sort_by{|m| m.release_date.to_s }
+    else
+      params[:sort] = ''
+      session[:sort] = params[:sort]
+    end
     
   end
 
