@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
-    
+    @all_ratings = Movie.get_ratings
     if(params[:sort].to_s == 'title')
       session[:sort] = params[:sort]
       @movies = @movies.sort_by{|m| m.title }
