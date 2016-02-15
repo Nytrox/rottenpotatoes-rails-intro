@@ -19,7 +19,6 @@ class MoviesController < ApplicationController
     @ratings = ratings.nil? ? Movie.get_ratings : ratings.keys
     
     #Sorting by Title/Release
-    #just to make sure
     if(params[:sort].to_s == 'title')
       session[:sort] = params[:sort]
       @movies = @movies.sort_by{|m| m.title }
