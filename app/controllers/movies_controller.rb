@@ -20,14 +20,11 @@ class MoviesController < ApplicationController
     
     #Sorting by Title/Release
     if(params[:sort].to_s == 'title')
-      session[:sort] = params[:sort]
       @movies = @movies.sort_by{|m| m.title }
     elsif(params[:sort].to_s == 'release')
-      session[:sort] = params[:sort]
       @movies = @movies.sort_by{|m| m.release_date.to_s }
     else
       params[:sort] = ''
-      session[:sort] = params[:sort]
     end
     
   end
