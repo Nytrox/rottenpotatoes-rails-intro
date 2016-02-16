@@ -15,6 +15,9 @@ class MoviesController < ApplicationController
     
     #invalid params
     if !params[:ratings] and session[:ratings]
+      if params[:sort]
+        session[:sort] = params[:sort]
+      end
       flash.keep
       redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
     end
