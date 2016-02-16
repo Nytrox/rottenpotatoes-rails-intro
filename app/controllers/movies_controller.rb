@@ -13,22 +13,30 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     
+    #invalid params
+    if !params[:ratings] and session[:ratings]
+      flash.keep
+      redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
+    end
+    
     #Ratings Section
     @all_ratings = Movie.get_ratings
     ratings = params[:ratings]
-    @ratings = ratings.nil? ? Movie.get_ratings : ratings.keys
-    
+    @ratings = ratings.nil? ? @all_ratings : ratings
     @movies = @movies.find_all {|m| @ratings.include?(m.rating)}
     
-    #Sorting by Title/Release
-    if(params[:sort].to_s == 'title')
+    #Sort by Title/Release
+    if(params[:sort] == 'title' or session[:sort] == 'title')
       @movies = @movies.sort_by{|m| m.title }
-    elsif(params[:sort].to_s == 'release')
+    elsif(params[:sort] == 'release' or session[:sort] == 'release')
       @movies = @movies.sort_by{|m| m.release_date.to_s }
     else
       params[:sort] = ''
     end
     
+    #save current session
+    session[:ratings] = @ratings
+    session[:sort] = params[:sort]
   end
 
   def new
